@@ -24,4 +24,4 @@ jobs:
           bundle install
 
       - name: Run Ruby script
-        run: ruby my_script.rb  # 実行したいスクリプトに置き換える
+        run: ruby bin/main.rb  # 実行したいスクリプトに置き換える
