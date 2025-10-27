@@ -19,9 +19,26 @@ module OpenAI
     end
 
     def get_models
-      endpoint = @base_url + "models"
-      response = HTTParty.get(endpoint)
-      JSON.parse(response.body)
+      begin
+        endpoint = @base_url + "models"
+        response = HTTParty.get(endpoint, timeout: 30)
+
+        if response.code >= 400
+          puts "[Error] Failed to get models, status code: #{response.code}"
+          return nil
+        end
+
+        JSON.parse(response.body)
+      rescue HTTParty::Error => e
+        puts "[Error] HTTP request failed for get_models: #{e.message}"
+        nil
+      rescue JSON::ParserError => e
+        puts "[Error] Failed to parse JSON response for get_models: #{e.message}"
+        nil
+      rescue StandardError => e
+        puts "[Error] Unexpected error in get_models: #{e.message}"
+        nil
+      end
     end
 
     def get_message_log
@@ -54,20 +71,56 @@ module OpenAI
       @log = log
     end
 
-    def ask
-      endpoint = @base_url + "chat"
-      body = {
-        "model" => @model,
-        "messages" => @log
-      }
-      headers = {
-        "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{@token}"
-      }
-      response = HTTParty.post(endpoint, body: JSON.generate(body), headers: headers)
-      puts response.code
-      puts response.body
-      JSON.parse(response.body)
+    def ask(retry_count = 3)
+      begin
+        endpoint = @base_url + "chat"
+        body = {
+          "model" => @model,
+          "messages" => @log
+        }
+        headers = {
+          "Content-Type" => "application/json",
+          "Authorization" => "Bearer #{@token}"
+        }
+        response = HTTParty.post(endpoint, body: JSON.generate(body), headers: headers, timeout: 120)
+        puts response.code
+        puts response.body
+
+        if response.code >= 400
+          puts "[Error] AI API returned error code: #{response.code}"
+          if retry_count > 0
+            puts "[Log] Retrying... (#{retry_count} attempts left)"
+            sleep(2)
+            return ask(retry_count - 1)
+          else
+            return nil
+          end
+        end
+
+        JSON.parse(response.body)
+      rescue HTTParty::Error => e
+        puts "[Error] HTTP request failed for ask: #{e.message}"
+        if retry_count > 0
+          puts "[Log] Retrying... (#{retry_count} attempts left)"
+          sleep(2)
+          return ask(retry_count - 1)
+        else
+          nil
+        end
+      rescue JSON::ParserError => e
+        puts "[Error] Failed to parse JSON response for ask: #{e.message}"
+        nil
+      rescue StandardError => e
+        puts "[Error] Unexpected error in ask: #{e.message}"
+        puts e.backtrace.first(3).join("\n")
+        if retry_count > 0
+          puts "[Log] Retrying... (#{retry_count} attempts left)"
+          sleep(2)
+          return ask(retry_count - 1)
+        else
+          nil
+        end
+      end
     end
   end
 end
