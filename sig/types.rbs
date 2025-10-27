@@ -1,0 +1,8 @@
+type message = {
+  "role"    => "user" | "assistant" | "system.txt",
+  "content" => String
+}
+
+type model = {
+
+}

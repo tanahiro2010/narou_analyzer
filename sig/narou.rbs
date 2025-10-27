@@ -1,0 +1,15 @@
+module Narou
+  class ApiClient
+    def initialize : (data: Hash[::String, untyped]) -> void
+
+    def get_novel : (ncode: String) -> Array[Hash[::String, untyped]]
+
+    def get_ranking : (ranking_type: String, novel_type: String, size: Integer) -> Array[Hash[::String, untyped]]
+  end
+
+  class AppClient
+    def initialize : (data: Hash[::String, untyped]) -> void
+
+    def get_novel_text : (ncode: String, index: Integer) -> String
+  end
+end

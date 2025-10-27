@@ -1,0 +1,30 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (3.3.1)
+    csv (3.3.5)
+    dotenv (3.1.8)
+    httparty (0.23.2)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
+    mini_mime (1.1.5)
+    multi_xml (0.7.2)
+      bigdecimal (~> 3.1)
+    nokogiri (1.18.10-x64-mingw-ucrt)
+      racc (~> 1.4)
+    racc (1.8.1)
+
+PLATFORMS
+  x64-mingw-ucrt
+
+DEPENDENCIES
+  dotenv
+  httparty
+  nokogiri
+
+RUBY VERSION
+   ruby 3.3.3p89
+
+BUNDLED WITH
+   2.6.3

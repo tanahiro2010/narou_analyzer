@@ -1,0 +1,61 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# dotenv
+.env
+
+# Bundler / RubyGems
+/.bundle
+/vendor/bundle/
+/*.gem
+
+# Logs and temp files
+log/*
+/tmp
+/*.log
+
+# Coverage and test reports
+coverage/
+spec/reports/
+test/tmp/
+
+# Byebug
+.byebug_history
+
+# Yard
+/.yardoc
+/_yardoc
+
+# Rails (if used)
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/public/system
+/public/uploads
+
+# Editor/IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Node/npm
+node_modules/
+
+# OS swap / editor temp
+*~
+*.swp
+*.swo
+
+# Ignore response files (AI outputs, generated JSON)
+/response/*.json
+
+# Ignore other common artifacts
+vendor/cache/
+.recommenders
+
+# Windows thumbnail cache
+ehthumbs.db
+
+# keep this file tracked
+!/.gitignore

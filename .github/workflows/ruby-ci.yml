@@ -1,0 +1,27 @@
+name: Ruby Weekly Job
+
+# 毎週月曜日に実行
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # UTCで毎週月曜日の0:00に実行
+  workflow_dispatch:     # 手動実行も可能にしておくと便利
+
+jobs:
+  run-ruby:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Run Ruby script
+        run: ruby my_script.rb  # 実行したいスクリプトに置き換える

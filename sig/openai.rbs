@@ -1,0 +1,19 @@
+module OpenAI
+  class Client
+    def initialize: (data: Hash[Symbol, untyped]?) -> void
+
+    def get_models: () -> Hash[::String, untyped]
+
+    def get_message_log: () -> Array[::Hash[::String, String]]
+
+    def set_model!: (model_id: String) -> void
+
+    def set_system_prompt!: (file: String) -> void
+
+    def set_talk_log!: (log: Array[::Hash[::String, untyped]]) -> void
+
+    def insert_system_prompt!: () -> void
+
+    def ask: () -> Hash[::String, untyped]
+  end
+end
